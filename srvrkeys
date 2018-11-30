@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# This script allows you to disable switching your linux pc to tty when pressing ctrl+alt+f{1..12}.
+# It is very helpful when you want to manage another linux via ipkvm or teamviewer.
+# To use it, place this file to your ~/bin directory. Check that it is executable and your $PATH includes ~/bin.
+# Then go to system settings -> shortcuts -> custom shortcuts.
+# Create two rules there: click Edit -> New -> Window action -> command/url
+# In the Trigger choose Trigger When Window gets/looses focus and in window define windows properties, for example TeamViewer or WinClient in window title.
+# Then in action tab type full path to srvrkeys (~ is not working there for some reason) and the parameter kwin or xserver. So in my case it'll be "/home/andrew/bin/srvrkeys kwin" and "/home/andrew/bin/srvrkeys xserver".
+# Press Apply, then enjoy seamless disabling srvr keys on local xserver when teamviewer window is focused. 
+
+if [[ $1 == "xserver" ]]; then
+    # see localectl list-x11-keymap-options
+    setxkbmap -option # don't rm this even when use next command, otherwise srvr_ctrl(no_srvr_keys) won't be flushed
+    setxkbmap -option grp:alt_shift_toggle # To restore my alt+shift layout switching. Change it to your preffered way of switching. TODO: get it from kde settings to automatically restore this.
+    setxkbmap -print | grep xkb_symbols # prints current flags
+    kdialog --passivepopup "Ctrl+Alt+Fx handled by xserver"
+elif [[ $1 == "kwin" ]]; then
+    setxkbmap -option srvrkeys:none # this unbinds ctrl+alt+fx from xserver, so it goes to kwin and then to active window
+    setxkbmap -print | grep xkb_symbols # prints current flags
+    kdialog --passivepopup "Ctrl+Alt+Fx handled by kwin"
+else
+    kdialog --error "Usage: $0 <xserver|kwin>"
+    exit 1
+fi
+
+# TODO modify kde's keyboard indicator widget to be able to show state of srvr_ctrl flag.
