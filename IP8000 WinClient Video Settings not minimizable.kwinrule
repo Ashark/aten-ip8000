@@ -1,0 +1,10 @@
+[IP8000 WinClient Video Settings not minimizable]
+Description=IP8000 WinClient Video Settings not minimizable
+minimize=false
+minimizerule=2
+title=Video Settings
+titlematch=1
+types=32
+wmclass=iclient.exe wine
+wmclasscomplete=true
+wmclassmatch=1

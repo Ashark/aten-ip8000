@@ -1,0 +1,12 @@
+[TeamViewer viewer window ignore global shortcuts]
+Description=TeamViewer viewer window ignore global shortcuts
+clientmachine=localhost
+clientmachinematch=0
+disableglobalshortcuts=true
+disableglobalshortcutsrule=2
+title=— TeamViewer
+titlematch=2
+types=1
+wmclass=teamviewer
+wmclasscomplete=false
+wmclassmatch=1

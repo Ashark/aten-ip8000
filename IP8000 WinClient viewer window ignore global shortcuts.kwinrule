@@ -1,0 +1,12 @@
+[IP8000 WinClient viewer window ignore global shortcuts]
+Description=IP8000 WinClient viewer window ignore global shortcuts
+clientmachine=unihost
+clientmachinematch=0
+disableglobalshortcuts=true
+disableglobalshortcutsrule=2
+title=- WinClient
+titlematch=2
+types=1
+wmclass=iclient.exe wine
+wmclasscomplete=true
+wmclassmatch=1
