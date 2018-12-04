@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# I used the following while developing this.
+# Google chromium browser - ctrl+u for viewing source code of page.
+# Live HTTP Headers extension - for watching http headers. But I could not see a post form data there.
+# Google chromium browser - ctrl+shift+i for developer tools. There in Network tab I can see headers and form data.
+
+# function get_time(){
+# var time = "";
+# var t= new Date();
+# time += t.getFullYear() +'.';
+# time += t.getMonth()+'.';
+# time += t.getDate()+'.';
+# time += t.getHours()+'.';
+# time += t.getMinutes()+'.';
+# time += t.getSeconds()+'.';
+# time += t.getTime()+'.';
+# time += t.getTimezoneOffset();
+# return time;
+# }
+
+
+# <form name="form2" action="view.htm" method="post" >
+# <input name='page_id' type='hidden' value='applet.htm'>
+# User Name: <input name="username" size="20" maxlength="16" type="text">
+# Password: <input name="password" size="20" maxlength="16" type="password">
+# <input name="login" value="Login" onclick="document.form2.curtime.value=get_time();event.cancel=false;" type="submit">
+# <input name="reset" value="Reset" type="reset">
+# <input name='curtime' type='hidden'>
+# </form>
+
+if [ -f ~/.private/ip8000-credentials.conf ]; then
+    source ~/.private/ip8000-credentials.conf
+else
+    HOST=example.com
+    USERNAME=JohnSmith
+    PASSWORD=123456
+fi
+
+JS_MONTH=$((`date +%m` - 1))
+CURTIMESTRING=`date +%Y.$JS_MONTH.%-d.%-H.%-M.%-S.%s000.-180`
+# echo $CURTIMESTRING
+
+# This is a form data, that browser sends, but actually, it works when
+# only username and password were sent.
+curl ${IFS# } -s -D - \
+    -d page_id=applet.htm\
+    -d username=$USERNAME\
+    -d password=$PASSWORD\
+    -d login=Login\
+    -d curtime=$CURTIMESTRING\
+    -k https://$HOST/view.htm | sed -n 2p | cut -f 2 -d "=" | tr -d "\r"
+# Hug that RFC2616. I have spent much time to discover why I have messed output, and this is because headers are terminated with dos style. So we need to remove carriage return symbol. See https://curl.haxx.se/mail/archive-2012-04/0092.html 
+
+# Maybe make this connection keep-alive, as browser does (keep_alive.htm?pid=$SESSIONPID).
+# echo -e "$SESSIONPID"

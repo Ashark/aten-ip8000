@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# <BODY onLoad="history.go(+1);">
+# <input name="pid" value="ACC38C38037C0AB37A07" type="hidden">
+# <input name="KVMIP_DATA" type="hidden">
+# <IFRAME src="keep_alive.htm?pid=ACC38C38037C0AB37A07" width="0" marginWidth="0" marginHeight="0" height="0" scrolling="no" frameborder="0" noresize></IFRAME>
+# 
+# <form name="form2" action="power.htm?pid=ACC38C38037C0AB37A07" method="post">
+# <input name='page_id' type='hidden' value='power.htm'>
+# <input name="onoff" value="Power On/Off"  onclick="document.form2.cmd_id.value='onoff';document.form2.submit();" type="button">
+# <input name="reset" value="   Reset    " onclick="document.form2.cmd_id.value='reset';document.form2.submit();" type="button">
+# <input name="cmd_id" value="onoff" type="hidden">
+# <input name="pid" value="ACC38C38037C0AB37A07" type="hidden">
+# <input name="KVMIP_MFLAG" value="0" type="hidden">
+# </form>
+
+# post data example:
+# page_id=power.htm&cmd_id=onoff&pid=ACC38C38037C0AB37A07&KVMIP_MFLAG=0
+
+if [ -f ~/.private/ip8000-credentials.conf ]; then
+    source ~/.private/ip8000-credentials.conf
+else
+    HOST=example.com
+fi
+
+SESSIONPID=`ip8000-get-session`
+URL="https://${HOST}/power.htm?pid=${SESSIONPID}"
+curl -sk -d cmd_id=reset $URL 1>/dev/null
+# Is it possible to just send POST, but do not recieve html document?

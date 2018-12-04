@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# function onRefresh(){
+# tmp = new Date();
+#   tmp = "view.jpg?pid=ACC38C38037C0AB37A07&seq="+tmp.getTime();
+#   document.form2.preview.src = tmp;
+# 
+# }
+# function get_time()
+# {
+# var time = "";
+# var t= new Date();
+# time += t.getFullYear() +'.';
+# time += t.getMonth()+'.';
+# time += t.getDate()+'.';
+# time += t.getHours()+'.';
+# time += t.getMinutes()+'.';
+# time += t.getSeconds()+'.';
+# time += t.getTime()+'.';
+# time += t.getTimezoneOffset();
+# return time;
+# }
+# 
+# <input name="pid" value="ACC38C38037C0AB37A07" type="hidden">
+# <input name="KVMIP_DATA" type="hidden">
+# <IFRAME src="keep_alive.htm?pid=ACC38C38037C0AB37A07" width="0" marginWidth="0" marginHeight="0" height="0" scrolling="no" frameborder="0" noresize></IFRAME>
+# <form name="form2" action="view.htm?pid=ACC38C38037C0AB37A07" method="post">
+# <input name='page_id' type='hidden' value='power.htm'>
+# 
+# <img name='preview' src='view.jpg?pid=ACC38C38037C0AB37A07&seq=1826446293' width= 240 height=160 border=0>
+# <input name="refresh" value="Refresh" onclick="onRefresh();" type="button">
+# <a href="view.htm?pid=ACC38C38037C0AB37A07&cmd_id=java"><img src="java.gif">Open Java Applet</a>
+# <input name="cmd_id" value="onoff" type="hidden">
+# <input name="pid" value="ACC38C38037C0AB37A07" type="hidden">
+# <input name="KVMIP_MFLAG" value="0" type="hidden">
+# </form>
+
+# I could add seq parameter, as browser does. But it works anyway without seq, so I did not implemented it for now.
+
+if [ -f ~/.private/ip8000-credentials.conf ]; then
+    source ~/.private/ip8000-credentials.conf
+else
+    HOST=example.com
+fi
+
+SESSIONPID=`ip8000-get-session`
+URL="https://${HOST}/view.jpg?pid=${SESSIONPID}"
+curl -sk  $URL -o preview.jpg
+display preview.jpg &
