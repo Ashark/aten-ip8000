@@ -45,5 +45,5 @@ fi
 
 SESSIONPID=`ip8000-get-session`
 URL="https://${HOST}/view.jpg?pid=${SESSIONPID}"
-curl -sk  $URL -o preview.jpg
-display preview.jpg &
+curl -sk  $URL -o /tmp/preview.jpg
+display /tmp/preview.jpg &
