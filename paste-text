@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This script is used for "pasting" a text to a window of a virtual machine
+# without guest additions or ip-kvm/ipmi iKVM viewer window.
+#
+# It asks you a string you want to input on a remote machine. Then you switch to
+# the desired window, and then script similates typing on a keyboard.
+
+
+while true; do
+	read -p "Enter a string: " string
+
+	sleep 3; # to let you switch to the target window
+	xdotool type "$string"
+	# xdotool key Return # if you want an Enter to be pressed after typing
+done
