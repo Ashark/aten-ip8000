@@ -1,0 +1,33 @@
+#!/bin/python
+
+# This app allows you to generate keyboard typing events and send them to virtual machine window (or ip-kvm viewer) as if you have pressed ctrl + V.
+# This is useful when your machine state is not able to use guest additions, for example, at a grub screen.
+# It may simplify tasks such as rescuing a system, when you often need to retype commands for mounting partitions and chrooting.
+
+import sys
+import os
+import subprocess
+
+from PyQt5 import QtWidgets
+import design
+
+class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.simulateTypeButton.clicked.connect(self.simulate_typing)
+
+    def simulate_typing(self):
+        mytext = self.plainTextEdit.toPlainText()
+        self.listWidget.addItem(mytext)
+        subprocess.call(["sleep", "3"])
+        subprocess.call(["xdotool", "type", mytext])
+
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = ExampleApp()
+    window.show()
+    app.exec_()
+
+if __name__ == '__main__':
+    main()
