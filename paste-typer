@@ -1,8 +1,13 @@
 #!/bin/python
 
-# This app allows you to generate keyboard typing events and send them to virtual machine window (or ip-kvm viewer) as if you have pressed ctrl + V.
-# This is useful when your machine state is not able to use guest additions, for example, at a grub screen.
-# It may simplify tasks such as rescuing a system, when you often need to retype commands for mounting partitions and chrooting.
+# This application is used for "pasting" a text (as if you have pressed ctrl + V) to a window of a virtual machine
+# without guest additions or ip-kvm/ipmi iKVM viewer window.
+#
+# It asks you a string you want to input on a remote machine. Then you click a button, switch to
+# the desired window, and then script similates typing on a keyboard.
+#
+# This is useful in situations when using guest additions is not possible, for example when you are rescuing a target system. You may simplify
+# routine of retyping commands for mounting partitions and chrooting. Or at a grub screen you can easily "paste" a UUID of needed device to boot from.
 
 import sys
 import os
