@@ -42,17 +42,33 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton">
-        <property name="toolTip">
-         <string comment="Стереть весь текст" extracomment="Стереть текст"/>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="edit-clear"/>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QToolButton" name="btnAddToHistory">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset theme="list-add">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnClearText">
+          <property name="toolTip">
+           <string comment="Стереть весь текст" extracomment="Стереть текст"/>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset theme="edit-clear">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
