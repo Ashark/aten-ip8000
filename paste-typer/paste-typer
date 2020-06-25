@@ -12,25 +12,44 @@
 import sys
 import os
 import subprocess
+import datetime
 
 from PyQt5 import QtWidgets
 import design
 
-class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
+windowid = "0"
+
+class PasteTyperApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.simulateTypeButton.clicked.connect(self.simulate_typing)
+        self.select_window_btn.clicked.connect(self.choose_window)
+        self.toolButton.clicked.connect(self.clear_text_area)
+
+        self.statusBar().showMessage("Target window id: " + windowid)
+
 
     def simulate_typing(self):
+        windowid = subprocess.check_output(["xdotool", "selectwindow"], universal_newlines=True)
+        windowid = subprocess.check_output(["xdotool", "windowactivate", windowid], universal_newlines=True)
         mytext = self.plainTextEdit.toPlainText()
         self.listWidget.addItem(mytext)
-        subprocess.call(["sleep", "3"])
-        subprocess.call(["xdotool", "type", mytext])
+        subprocess.call(["sleep", "0.5"])
+        return_code = subprocess.call(["xdotool", "type", "--window", windowid, mytext])
+        self.statusBar().showMessage("Target window id: " + windowid + "; Return code: " + str(return_code) + "; " + str(datetime.datetime.now()))
+
+
+    def choose_window(self):
+        windowid = subprocess.check_output(["xdotool", "selectwindow"], universal_newlines=True)
+        self.statusBar().showMessage("Target window id: " + windowid)
+
+    def clear_text_area(self):
+        self.plainTextEdit.clear()
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    window = ExampleApp()
+    window = PasteTyperApp()
     window.show()
     app.exec_()
 
