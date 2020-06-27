@@ -27,7 +27,8 @@ class PasteTyperApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.select_window_btn.clicked.connect(self.choose_window)
         self.btnClearText.clicked.connect(self.clear_text_area)
         self.btnAddToHistory.clicked.connect(self.add_text_area_to_history)
-
+        self.btnRemoveFromHistory.clicked.connect(self.remove_from_history)
+        self.btnCopyToTextArea.clicked.connect(self.copy_to_text_area)
         self.statusBar().showMessage("Target window id: " + windowid)
 
 
@@ -57,6 +58,17 @@ class PasteTyperApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         new_item = QtWidgets.QListWidgetItem(mytext)
         self.listWidget.addItem(new_item)
         self.listWidget.itemDoubleClicked.connect(self.text_area_pull_from_history)
+
+    def remove_from_history(self):
+        item = self.listWidget.takeItem(self.listWidget.currentRow())
+        item = None
+
+    def copy_to_text_area(self):
+        if self.listWidget.currentItem() is None:
+            text = "Nothing to copy"
+        else:
+            text = self.listWidget.currentItem().text()
+        self.plainTextEdit.setPlainText(text)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
