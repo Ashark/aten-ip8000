@@ -16,4 +16,5 @@ I will report this bug to wine later. Interestingly, the same application (WinCl
 Window action group
 - ctrl+alt+fx handlers window action.khotkeys<br>
 This is not hotkeys, but window actions. See srvrkeys file. Currently window matching functionality in kde window actions is partly broken. When I use window class matching, it stops triggering. So for now I just use title matching. I did not reported it yet.<br>
+https://bugs.kde.org/show_bug.cgi?id=401391 Bug 401391 - Window detection function does not work  
 Another kde bug here. Changing comment string does not activate Apply button, so you need to edit some window matching rule, then press apply, and then revert unwanted change of editing window matching rule.
